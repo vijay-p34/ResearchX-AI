@@ -1,0 +1,145 @@
+import List "mo:core/List";
+import Text "mo:core/Text";
+import Time "mo:core/Time";
+import Map "mo:core/Map";
+import Array "mo:core/Array";
+import Runtime "mo:core/Runtime";
+import Order "mo:core/Order";
+import Int "mo:core/Int";
+import Iter "mo:core/Iter";
+
+actor {
+  type Paper = {
+    id : Text;
+    title : Text;
+    authors : [Text];
+    abstract : Text;
+    year : Nat;
+    journal : Text;
+    url : Text;
+    tags : [Text];
+    status : PaperStatus;
+    summary : Text;
+    notes : Text;
+    collectionId : ?Text;
+    createdAt : Int;
+  };
+
+  type PaperStatus = {
+    #Unread;
+    #Reading;
+    #Done;
+  };
+
+  type Collection = {
+    id : Text;
+    name : Text;
+    description : Text;
+    createdAt : Int;
+  };
+
+  type QAEntry = {
+    id : Text;
+    paperId : Text;
+    question : Text;
+    answer : Text;
+    timestamp : Int;
+  };
+
+  module Paper {
+    public func compareByCreatedAt(p1 : Paper, p2 : Paper) : Order.Order {
+      Int.compare(p2.createdAt, p1.createdAt);
+    };
+  };
+
+  let papers = Map.empty<Text, Paper>();
+  let collections = Map.empty<Text, Collection>();
+  let qaEntries = Map.empty<Text, QAEntry>();
+
+  public shared ({ caller }) func addPaper(id : Text, title : Text, authors : [Text], abstract : Text, year : Nat, journal : Text, url : Text, tags : [Text]) : async () {
+    let paper : Paper = {
+      id;
+      title;
+      authors;
+      abstract;
+      year;
+      journal;
+      url;
+      tags;
+      status = #Unread;
+      summary = "";
+      notes = "";
+      collectionId = null;
+      createdAt = Time.now();
+    };
+    papers.add(id, paper);
+  };
+
+  public query ({ caller }) func getPaper(id : Text) : async Paper {
+    switch (papers.get(id)) {
+      case (null) { Runtime.trap("Paper not found") };
+      case (?paper) { paper };
+    };
+  };
+
+  public shared ({ caller }) func updatePaper(id : Text, title : Text, authors : [Text], abstract : Text, year : Nat, journal : Text, url : Text, tags : [Text]) : async () {
+    switch (papers.get(id)) {
+      case (null) { Runtime.trap("Paper not found") };
+      case (?existingPaper) {
+        let updatedPaper = {
+          existingPaper with
+          title;
+          authors;
+          abstract;
+          year;
+          journal;
+          url;
+          tags;
+        };
+        papers.add(id, updatedPaper);
+      };
+    };
+  };
+
+  public query ({ caller }) func searchPapers(keyword : Text) : async [Paper] {
+    let results = List.empty<Paper>();
+    for ((id, paper) in papers.entries()) {
+      if (paper.title.contains(#text keyword) or paper.abstract.contains(#text keyword)) {
+        results.add(paper);
+      };
+    };
+    results.toArray();
+  };
+
+  public shared ({ caller }) func addCollection(id : Text, name : Text, description : Text) : async () {
+    let collection : Collection = {
+      id;
+      name;
+      description;
+      createdAt = Time.now();
+    };
+    collections.add(id, collection);
+  };
+
+  public shared ({ caller }) func addQAEntry(id : Text, paperId : Text, question : Text, answer : Text) : async () {
+    let qaEntry : QAEntry = {
+      id;
+      paperId;
+      question;
+      answer;
+      timestamp = Time.now();
+    };
+    qaEntries.add(id, qaEntry);
+  };
+
+  public query ({ caller }) func getPapersByTag(tag : Text) : async [Paper] {
+    let results = List.empty<Paper>();
+    for ((id, paper) in papers.entries()) {
+      let tagsList = List.fromIter(paper.tags.values());
+      if (tagsList.contains(tag)) {
+        results.add(paper);
+      };
+    };
+    results.toArray();
+  };
+};
