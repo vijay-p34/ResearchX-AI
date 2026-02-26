@@ -1,0 +1,67 @@
+"summaryUpdate": "ResearchPilot AI Agent – Autonomous Research Intelligence Hub. A web application that assists researchers in discovering, organizing, and interacting with academic papers. The AI agent provides contextual summaries, insights, and intelligent search to improve research productivity. Built with React frontend, FastAPI backend, Vector Databases, LLM APIs, and AI Agents.",
+  "new_feature_requests_to_add": [
+    {
+      "id": "AR-1",
+      "summary": "Paper discovery – search and find academic papers",
+      "reqIds": [
+        
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Smart organization – categorize and manage research papers",
+      "reqIds": [
+        
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "AI summarization – generate contextual summaries of papers",
+      "reqIds": [
+        
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Contextual Q&A – ask questions about research papers using AI",
+      "reqIds": [
+        
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Research assistance – intelligent insights and recommendations",
+      "reqIds": [
+        
+      ],
+      "status": "pending"
+    }
+  ],
+  "new_feature_requests_to_remove": [
+    
+  ],
+  "architecturalNotesToAdd": [
+    "Frontend: React",
+    "Backend: FastAPI",
+    "Storage: Vector Databases for semantic search",
+    "AI: LLM APIs and AI Agents for summarization and Q&A"
+  ],
+  "architecturalNotesToRemove": [
+    
+  ],
+  "knownIssuesToAdd": [
+    
+  ],
+  "knownIssuesToRemove": [
+    
+  ],
+  "isFixRequest": false,
+  "imageRequirements": null,
+  "generatedImages": null,
+  "gameProjectType": "none",
+  "projectName": "ResearchPilot AI Agent"
+}

@@ -1,0 +1,26 @@
+# Specification
+
+## Summary
+**Goal:** Build ResearchPilot, an academic research management hub with paper storage, search, organization, AI-stored summaries/Q&A, and a dark academic UI — all backed by a single Motoko actor.
+
+**Planned changes:**
+
+### Backend (Motoko Actor)
+- Store academic paper records with fields: id, title, authors, abstract, url, tags, dateAdded, notes
+- CRUD operations: `addPaper`, `getPapers`, `getPaperById`, `updatePaperNotes`, `updatePaperTags`, `deletePaper`
+- Search endpoint: case-insensitive keyword matching across title, abstract, authors; filter by tag
+- Summary & Q&A storage per paper: `saveSummary`, `getSummary`, `addQAEntry`, `getQAEntries`
+
+### Frontend Pages
+- **Paper Discovery page:** Search bar, results as paper cards (title, authors, abstract snippet, tags), "Save to Library" button, empty state message
+- **Research Library page:** Grid/list of all saved papers, filter by tag, sort by date added or title, links to detail view
+- **Paper Detail page:** Full metadata display, editable notes field, AI Summary section, Q&A section with ability to add new questions
+- **Research Insights Dashboard:** Total paper count, top tags with counts, last 5 added papers, static recommendation placeholder cards
+
+### UI & Assets
+- Dark academic theme: deep navy/charcoal backgrounds, warm amber and off-white typography, serif-inspired headings, paper-texture-like cards, hover micro-interactions
+- Sidebar navigation present on all pages
+- App logo (`researchpilot-logo.png`) in sidebar/header; hero background (`dashboard-hero.png`) on dashboard
+- Images loaded from `frontend/public/assets/generated`
+
+**User-visible outcome:** Users can search for and save academic papers, organize them with tags and notes, view AI-stored summaries and Q&A per paper, and get a high-level overview of their research library — all within a polished dark academic interface.
